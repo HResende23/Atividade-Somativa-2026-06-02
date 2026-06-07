@@ -1,0 +1,72 @@
+#include <stdio.h>
+#include <string.h>
+
+#define arquivoBinario "clientes.bin"
+
+struct Cliente {
+    int conta;
+    char nome [20];
+    float saldo;
+    int encerrar;
+};
+
+void cadastroClientes (FILE, *arq);
+void consultarClientes (FILE, *arq);
+void atualizarSaldo (FILE, *arq);
+void encerrarAtualizacao (FILE, *arq);
+void listarClientes (FILE, *arq);
+
+int main(){
+    FILE *arq = fopen ("clientes.bin", "rb+");
+    if (arq == NULL){
+        arq = fopen ("clientes.bin", "wb+");
+        
+        if (arq == NULL){
+            print ("Erro na abertura do arquivo!\n");
+            return 1;
+        }
+    }
+    
+    int opcao;
+    while (opcao != 7){
+        printf("\n=== MENU DE CONTAS ===\n");
+        printf("1. Cadastrar novo cliente em posicao especifica\n");
+        printf("2. Consultar cliente (por numero da conta)\n");
+        printf("3. Atualizar saldo\n");
+        printf("4. Encerrar conta\n");
+        printf("5. Listar todos os clientes\n");
+        printf("6. Reiniciar listagem (rewind)\n");
+        printf("7. Encerrar\n");
+        printf("Escolha uma opcao: ");
+        scanf("%d", &opcao);
+        
+        switch (opcao){
+            case 1:
+                cadastrar_cliente(arquivo);
+                break;
+            case 2:
+                consultar_cliente(arquivo);
+                break;
+            case 3:
+                atualizar_saldo(arquivo);
+                break;
+            case 4:
+                encerrar_conta(arquivo);
+                break;
+            case 5:
+                listar_clientes(arquivo);
+                break;
+            case 6:
+                rewind(arquivo); 
+                printf("Leitura restaurada para o inicio.\n"); 
+                break;
+            case 7:
+                printf("Encerrando...\n"); break;
+            default:
+                printf("Opcao invalida!\n");
+        }
+    }
+    
+    fclose (arq);
+    return 0;
+}
